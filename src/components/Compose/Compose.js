@@ -16,15 +16,19 @@ export default class Compose extends Component {
     this.createPost = this.createPost.bind( this );
   }
 
-  updateText( text ) {
+  updateText( text ) 
+  {
     this.setState({ text });
   }
 
-  createPost() {
-
+  createPost() 
+  {
+    this.props.createPostFn(this.state.text);
+    this.setState({text: ""});
   }
 
-  render() {
+  render() 
+  {
     // Destructuring
     const { text } = this.state;
 
