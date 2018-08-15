@@ -8,11 +8,13 @@ import SearchIcon from 'react-icons/lib/md/search';
 
 export default class Search extends Component {
   render() {
+    const { list, searchFeedFn } = this.props;
+
     return (
       <section className="Search__parent">
 
         <div className="Search__content">
-          <input placeholder="Search Your Feed" />
+          <input placeholder="Search Your Feed" onChange={(e)=> searchFeedFn(e, list)}/>
 
           <SearchIcon id="Search__icon" />
         </div>

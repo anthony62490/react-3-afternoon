@@ -31,7 +31,7 @@ class App extends Component
         console.log('res received: ', res.data);
         this.setState({ posts: res.data });
       })
-      .catch(error=> console.log("Error receiving posts in componentDidMount()."));
+      .catch((error)=> console.log("GET componentDidMount().", error));
   }
 
   updatePost(id, text) 
@@ -39,15 +39,15 @@ class App extends Component
     axios
       .put(`https://practiceapi.devmountain.com/api/posts?id=${id}`, {text})
       .then( (res)=> this.setState({posts: res.data}) )
-      .catch(error=> console.log("PUT error in updatePost(id, text)"));
+      .catch((error)=> console.log("PUT updatePost(id, text)", error));
   }
 
   deletePost(id) 
   {
     axios
-      .delete(`https//practiceapi.devmountain.com/api/posts?id=${id}`)
+      .delete(`https://practiceapi.devmountain.com/api/posts?id=${id}`)
       .then( (res)=> this.setState({posts: res.data}) )
-      .catch(error=> console.log("DELETE error in deletePost(id)"));
+      .catch((error)=> console.log("DELETE deletePost(id)", error));
   }
 
   createPost(text) 
@@ -55,7 +55,12 @@ class App extends Component
     axios
       .post("https://practiceapi.devmountain.com/api/posts", {"text": text})
       .then( (res)=> this.setState({ posts: res.data}) )
-      .catch(error=> console.log("POST error in createPost(text)"));
+      .catch((error)=> console.log("POST createPost(text)", error));
+  }
+
+  searchFeed(text, list)
+  {
+    return list.filter( (x)=> (x.includes(text)) );
   }
 
   render() 
@@ -64,11 +69,12 @@ class App extends Component
 
     return (
       <div className="App__parent">
-        <Header />
+        <Header searchFeedFn={this.searchFeed}
+                list={this.posts}/>
 
         <section className="App__content">
 
-          <Compose createPostFn={this.createPost}/>
+          <Compose  createPostFn={this.createPost}/>
           
           {
             posts.map((e)=>(
